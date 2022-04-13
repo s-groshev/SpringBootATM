@@ -15,7 +15,7 @@
 
 1) Spring Boot
 2) Spring MVC
-3) Spring Data JDBC
+3) Spring Data JPA
 4) H2
 
 ## Модули проекта:
