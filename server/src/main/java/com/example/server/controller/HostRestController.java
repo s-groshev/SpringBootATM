@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.operation.Operation.*;
+
 @RestController
 @AllArgsConstructor
 public class HostRestController {
@@ -59,5 +61,20 @@ public class HostRestController {
 
         Response response = cardService.getBalance(request.getCardId(), request.getPin());
         return response;
+    }
+
+    @PutMapping("/hosts/{hostId}/clients/{clientId}")
+    public Response setBalance(@PathVariable("hostId") Long hostId,
+                               @PathVariable("clientId") Long clientId,
+                               @RequestBody Request request) {
+        if (hostId != HOST_ID) {
+            throw new RuntimeException("Host " + hostId + " is not ready!");
+        }
+
+        if(request.getOperation().equals(DEPOSIT))
+            return cardService.deposit(request.getCardId(), request.getPin(), request.getAmount());
+        else if(request.getOperation().equals(WITHDRAW))
+            return cardService.withdraw(request.getCardId(), request.getPin(), request.getAmount());
+        else throw new RuntimeException("Operation not support");
     }
 }

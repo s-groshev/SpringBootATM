@@ -6,7 +6,10 @@ import com.example.service.ATMService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor
@@ -31,6 +34,38 @@ public class ATMRestController {
         }
 
         return atmService.getBalance(ATMId,clientId,cardId,pin);
+    }
+
+    @PutMapping("/ATMs/{ATMId}/clients/{clientId}/cards/{cardId}/{pin}/deposit/{amount}")
+    public BalanceDTO depositClientBalance(
+            @PathVariable("ATMId") Long ATMId,
+            @PathVariable("clientId") Long clientId,
+            @PathVariable("cardId") Long cardId,
+            @PathVariable("pin") int pin,
+            @PathVariable("amount") BigDecimal amount)
+        {
+
+        if (ATMId != ATM_ID) {
+            throw new ATMInternalErrorException("ATM internal Error");
+        }
+
+        return atmService.deposit(ATMId,clientId,cardId,pin,amount);
+    }
+
+    @PutMapping("/ATMs/{ATMId}/clients/{clientId}/cards/{cardId}/{pin}/withdraw/{amount}")
+    public BalanceDTO withdrawClientBalance(
+            @PathVariable("ATMId") Long ATMId,
+            @PathVariable("clientId") Long clientId,
+            @PathVariable("cardId") Long cardId,
+            @PathVariable("pin") int pin,
+            @PathVariable("amount") BigDecimal amount)
+    {
+
+        if (ATMId != ATM_ID) {
+            throw new ATMInternalErrorException("ATM internal Error");
+        }
+
+        return atmService.withdraw(ATMId,clientId,cardId,pin,amount);
     }
 
 }
