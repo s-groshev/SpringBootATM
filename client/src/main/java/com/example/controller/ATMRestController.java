@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.dto.BalanceDTO;
+import com.example.Response;
 import com.example.exception.ATMInternalErrorException;
 import com.example.service.ATMService;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class ATMRestController {
     }
 
     @GetMapping("/ATMs/{ATMId}/clients/{clientId}/cards/{cardId}/{pin}")
-    public BalanceDTO getClientBalance(
+    public Response getClientBalance(
             @PathVariable("ATMId") Long ATMId,
             @PathVariable("clientId") Long clientId,
             @PathVariable("cardId") Long cardId,
@@ -37,7 +37,7 @@ public class ATMRestController {
     }
 
     @PutMapping("/ATMs/{ATMId}/clients/{clientId}/cards/{cardId}/{pin}/deposit/{amount}")
-    public BalanceDTO depositClientBalance(
+    public Response depositClientBalance(
             @PathVariable("ATMId") Long ATMId,
             @PathVariable("clientId") Long clientId,
             @PathVariable("cardId") Long cardId,
@@ -53,7 +53,7 @@ public class ATMRestController {
     }
 
     @PutMapping("/ATMs/{ATMId}/clients/{clientId}/cards/{cardId}/{pin}/withdraw/{amount}")
-    public BalanceDTO withdrawClientBalance(
+    public Response withdrawClientBalance(
             @PathVariable("ATMId") Long ATMId,
             @PathVariable("clientId") Long clientId,
             @PathVariable("cardId") Long cardId,

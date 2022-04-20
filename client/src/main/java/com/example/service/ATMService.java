@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.Request;
 import com.example.Response;
-import com.example.dto.BalanceDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -19,15 +18,14 @@ public class ATMService {
     private final String HOST_URL = "http://localhost:8080/hosts/1/";
     private RestTemplate restTemplate;
 
-    public BalanceDTO getBalance(long atmId,long clientId,long cardId,int pin){
+    public Response getBalance(long atmId,long clientId,long cardId,int pin){
         HttpEntity<Request> requestEntity=new HttpEntity<>(new Request(atmId,cardId,pin, GET,null));
         HttpEntity<Response> responseEntity=restTemplate.exchange(HOST_URL+"clients/"+clientId, HttpMethod.POST
         ,requestEntity,Response.class);
-        return new BalanceDTO(responseEntity.getBody().getStatusRequest(), responseEntity.getBody().getBalance()
-                ,responseEntity.getBody().getCurrency());
+        return responseEntity.getBody();
     }
 
-    public BalanceDTO deposit(long atmId, long clientId, long cardId, int pin, BigDecimal amount){
+    public Response deposit(long atmId, long clientId, long cardId, int pin, BigDecimal amount){
 
         //положить наличные и проверить банкоматом подлинность денег
 
@@ -37,19 +35,17 @@ public class ATMService {
 
         //если статус не OK, позвоните на горячюю линию
 
-        return new BalanceDTO(responseEntity.getBody().getStatusRequest(), responseEntity.getBody().getBalance()
-                ,responseEntity.getBody().getCurrency());
+        return responseEntity.getBody();
     }
 
-    public BalanceDTO withdraw(long atmId, long clientId, long cardId, int pin, BigDecimal amount){
+    public Response withdraw(long atmId, long clientId, long cardId, int pin, BigDecimal amount){
         HttpEntity<Request> requestEntity=new HttpEntity<>(new Request(atmId,cardId,pin,WITHDRAW,amount));
         HttpEntity<Response> responseEntity=restTemplate.exchange(HOST_URL+"clients/"+clientId, HttpMethod.PUT
                 ,requestEntity,Response.class);
 
         //выдать наличные если статус ОК
 
-        return new BalanceDTO(responseEntity.getBody().getStatusRequest(), responseEntity.getBody().getBalance()
-                ,responseEntity.getBody().getCurrency());
+        return responseEntity.getBody();
     }
 
 }

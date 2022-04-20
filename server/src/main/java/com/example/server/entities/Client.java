@@ -1,5 +1,6 @@
 package com.example.server.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Client")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Client {
@@ -18,7 +20,6 @@ public class Client {
     private long id;
     private String first_name;
     private String last_name;
-
     @OneToMany(mappedBy = "client")
-    Set<Card> cards;
+    private Set<Card> cards;
 }

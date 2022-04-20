@@ -2,8 +2,8 @@ package com.example.server.controller;
 
 import com.example.Request;
 import com.example.Response;
-import com.example.server.dto.CardDTO;
-import com.example.server.dto.ClientDTO;
+import com.example.server.entities.Card;
+import com.example.server.entities.Client;
 import com.example.server.exception.HostNotFoundException;
 import com.example.server.service.CardService;
 import com.example.server.service.ClientService;
@@ -36,7 +36,7 @@ public class HostRestController {
     }
 
     @GetMapping("/hosts/{hostId}/clients")
-    public List<ClientDTO> getClientsInfo(@PathVariable Long hostId) {
+    public List<Client> getClientsInfo(@PathVariable Long hostId) {
         if (hostId != HOST_ID) {
             throw new HostNotFoundException();
         }
@@ -44,7 +44,7 @@ public class HostRestController {
     }
 
     @GetMapping("/hosts/{hostId}/cards")
-    public List<CardDTO> getCardsInfo(@PathVariable Long hostId) {
+    public List<Card> getCardsInfo(@PathVariable Long hostId) {
         if (hostId != HOST_ID) {
             throw new HostNotFoundException();
         }
